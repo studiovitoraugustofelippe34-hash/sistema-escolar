@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Acesso dos Professores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-box {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-box button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>Acesso Professores</h2>
+        <form id="loginForm">
+            <input type="text" id="usuario" placeholder="Usuário" required>
+            <input type="password" id="senha" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // impede envio padrão
+
+            // Aqui você pode validar usuário e senha
+            let usuario = document.getElementById("usuario").value;
+            let senha = document.getElementById("senha").value;
+
+            // Exemplo simples: se usuário e senha não estiverem vazios
+            if(usuario && senha){
+                // Redireciona para alunos.html
+                window.location.href = "./index.html";
+            } else {
+                alert("Usuário ou senha inválidos!");
+            }
+        });
+    </script>
+</body>
+</html>

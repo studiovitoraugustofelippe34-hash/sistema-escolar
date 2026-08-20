@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema Escolar - Resultado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://www.saopaulo.sp.gov.br/wp-content/uploads/2020/03/governo-sp-logo.png') no-repeat right bottom fixed;
+            background-size: 200px;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            width: 95%;
+            max-width: 1000px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4facfe;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #00c6fb;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #f2f2f2;
+        }
+        .aprovado {
+            background: #d4edda;
+            color: #155724;
+        }
+        .reprovado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .recuperacao {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .materia {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Resultado Escolar</h2>
+
+        <label>Nome do Aluno:</label>
+        <input type="text" id="nome">
+
+        <label>Ano Escolar:</label>
+        <input type="text" id="ano">
+
+        <label>Português:</label>
+        <input type="number" id="portugues" step="0.1">
+
+        <label>Matemática:</label>
+        <input type="number" id="matematica" step="0.1">
+
+        <label>Ciências:</label>
+        <input type="number" id="ciencias" step="0.1">
+
+        <label>História:</label>
+        <input type="number" id="historia" step="0.1">
+
+        <label>Geografia:</label>
+        <input type="number" id="geografia" step="0.1">
+
+        <label>Inglês:</label>
+        <input type="number" id="ingles" step="0.1">
+
+        <button onclick="verificar()">Adicionar Resultado</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function verificar() {
+            let nome = document.getElementById("nome").value;
+            let ano = document.getElementById("ano").value;
+
+            let materias = {
+                portugues: parseFloat(document.getElementById("portugues").value),
+                matematica: parseFloat(document.getElementById("matematica").value),
+                ciencias: parseFloat(document.getElementById("ciencias").value),
+                historia: parseFloat(document.getElementById("historia").value),
+                geografia: parseFloat(document.getElementById("geografia").value),
+                ingles: parseFloat(document.getElementById("ingles").value)
+            };
+
+            if (Object.values(materias).some(isNaN) || nome === "" || ano === "") {
+                alert("Por favor, preencha todos os campos corretamente.");
+                return;
+            }
+
+            let resultadoDiv = document.getElementById("resultado");
+
+            for (let materia in materias) {
+                let nota = materias[materia];
+                let situacaoClass = "";
+                let situacaoTexto = "";
+
+                if (nota >= 6) {
+                    situacaoClass = "aprovado";
+                    situacaoTexto = "APROVADO 🎉";
+                } else if (nota >= 5) {
+                    situacaoClass = "recuperacao";
+                    situacaoTexto = "RECUPERAÇÃO ⚠️";
+                } else {
+                    situacaoClass = "reprovado";
+                    situacaoTexto = "REPROVADO ❌";
+                }
+
+                // Cria uma "pasta" (tabela) para cada matéria
+                if (!document.getElementById("tabela_" + materia)) {
+                    let titulo = "<div class='materia'><h3>" + materia.charAt(0).toUpperCase() + materia.slice(1) + "</h3>";
+                    let tabela = "<table id='tabela_" + materia + "'>";
+                    tabela += "<tr><th>Aluno</th><th>Ano</th><th>Nota</th><th>Situação</th></tr>";
+                    tabela += "</table></div>";
+                    resultadoDiv.innerHTML += titulo + tabela;
+                }
+
+                let linha = "<tr class='" + situacaoClass + "'>";
+                linha += "<td>" + nome + "</td>";
+                linha += "<td>" + ano + "</td>";
+                linha += "<td>" + nota.toFixed(1) + "</td>";
+                linha += "<td>" + situacaoTexto + "</td>";
+                linha += "</tr>";
+
+                document.getElementById("tabela_" + materia).innerHTML += linha;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Monitoramento e Cadastro</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+      background-color: #ffffff; 
+      color: #000000; 
+    }
+    header { 
+      background: #ff0000; 
+      padding: 15px; 
+      text-align: center; 
+    }
+    header a { 
+      color: #ffffff; 
+      font-size: 20px; 
+      text-decoration: none; 
+      font-weight: bold; 
+    }
+    h1 { 
+      text-align: center; 
+      margin-top: 20px; 
+      color: #ff0000; 
+    }
+    form { 
+      margin: 20px auto; 
+      width: 400px; 
+      padding: 20px; 
+      border: 2px solid #000000; 
+      border-radius: 8px; 
+      background-color: #f9f9f9; 
+    }
+    label { 
+      display: block; 
+      margin-top: 10px; 
+      font-weight: bold; 
+    }
+    input { 
+      padding: 8px; 
+      width: 100%; 
+      margin-top: 5px; 
+      border: 1px solid #000000; 
+      border-radius: 4px; 
+    }
+    button { 
+      margin-top: 15px; 
+      padding: 10px 20px; 
+      background: #ff0000; 
+      color: #ffffff; 
+      border: none; 
+      border-radius: 5px; 
+      cursor: pointer; 
+      font-weight: bold; 
+    }
+    button:hover { 
+      background: #000000; 
+      color: #ffffff; 
+    }
+    .alerta { 
+      color: #ff0000; 
+      font-weight: bold; 
+      margin-top: 20px; 
+      text-align: center; 
+    }
+    #resultado { 
+      margin: 20px auto; 
+      width: 400px; 
+      padding: 15px; 
+      border: 1px solid #000000; 
+      border-radius: 6px; 
+      background-color: #ffffff; 
+    }
+    #listaUsuarios {
+      margin: 20px auto;
+      width: 400px;
+      padding: 15px;
+      border: 2px solid #ff0000;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+    #listaUsuarios h3 {
+      color: #ff0000;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Botão de suporte no topo -->
+  <header>
+    <a href="https://wa.me/5517997746829?text=Preciso%20de%20suporte%20urgente!">💬 Solicitar Suporte via WhatsApp</a>
+  </header>
+
+  <h1>Cadastro do Local</h1>
+  <form id="cadastroForm">
+    <label>Nome:
+      <input type="text" id="nome" required>
+    </label>
+    <label>Cidade:
+      <input type="text" id="cidade" required>
+    </label>
+    <label>Endereço:
+      <input type="text" id="endereco" required>
+    </label>
+    <button type="submit">Cadastrar Usuário</button>
+  </form>
+
+  <div id="resultado"></div>
+  <div id="monitoramento" class="alerta"></div>
+
+  <!-- Lista de usuários cadastrados -->
+  <div id="listaUsuarios">
+    <h3>Usuários Cadastrados</h3>
+    <ul id="usuarios"></ul>
+  </div>
+
+  <!-- Botão manual de monitoramento -->
+  <div style="text-align:center;">
+    <button onclick="monitorarSistema()">🔍 Verificar Sistema Manualmente</button>
+  </div>
+
+  <script>
+    const usuarios = [];
+
+    // Função de cadastro
+    document.getElementById("cadastroForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const nome = document.getElementById("nome").value;
+      const cidade = document.getElementById("cidade").value;
+      const endereco = document.getElementById("endereco").value;
+
+      const usuario = { nome, cidade, endereco };
+      usuarios.push(usuario);
+
+      document.getElementById("resultado").innerHTML =
+        `<h3>Cadastro realizado:</h3>
+         <p><strong>Nome:</strong> ${nome}</p>
+         <p><strong>Cidade:</strong> ${cidade}</p>
+         <p><strong>Endereço:</strong> ${endereco}</p>`;
+
+      // Adiciona na lista
+      const li = document.createElement("li");
+      li.textContent = `${nome} - ${cidade} - ${endereco}`;
+      document.getElementById("usuarios").appendChild(li);
+
+      // Limpa o formulário para próximo cadastro
+      document.getElementById("cadastroForm").reset();
+    });
+
+    // Função de monitoramento
+    function monitorarSistema() {
+      const sistemaAtivo = Math.random() > 0.3; // 70% ativo, 30% falha simulada
+
+      if (!sistemaAtivo) {
+        document.getElementById("monitoramento").innerHTML =
+          `⚠️ Sistema fora do ar! Solicite suporte pelo WhatsApp:
+          <a href="https://wa.me/5517997746829?text=Preciso%20de%20suporte%20urgente!">💬 Clique aqui</a>`;
+      } else {
+        document.getElementById("monitoramento").innerHTML = "✅ Sistema funcionando normalmente.";
+      }
+    }
+
+    // Monitoramento automático a cada 5 segundos
+    setInterval(monitorarSistema, 5000);
+    monitorarSistema();
+  </script>
+</body>
+</html>
